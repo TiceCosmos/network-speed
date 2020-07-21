@@ -71,8 +71,7 @@ pub fn tcp_recv_data(stream: &mut TcpStream, buffer: &mut [u8]) -> io::Result<()
         let mut s = 0;
         if !stat {
             while s + mem::size_of::<u64>() <= length {
-                let value =
-                    u64::from_be_bytes(buffer[s..(s + mem::size_of::<u64>())].try_into().unwrap());
+                let value = u64::from_be_bytes(buffer[s..(s + mem::size_of::<u64>())].try_into().unwrap());
                 s += mem::size_of::<u64>();
                 if value == u64::MAX {
                     stat = true;
@@ -83,16 +82,14 @@ pub fn tcp_recv_data(stream: &mut TcpStream, buffer: &mut [u8]) -> io::Result<()
             }
         }
         while s + mem::size_of::<u64>() <= length {
-            let value =
-                u64::from_be_bytes(buffer[s..(s + mem::size_of::<u64>())].try_into().unwrap());
+            let value = u64::from_be_bytes(buffer[s..(s + mem::size_of::<u64>())].try_into().unwrap());
             s += mem::size_of::<u64>();
             if count == TRAN_SIZE {
                 info!(
                     "传输速度：{:>12}",
                     format!(
                         "{:.3} MB/s",
-                        TRAN_SIZE as f64 * 1000000.
-                            / (time.elapsed().as_micros() as f64 * 1048576.)
+                        TRAN_SIZE as f64 * 1000000. / (time.elapsed().as_micros() as f64 * 1048576.)
                     )
                 );
                 if check != value {
